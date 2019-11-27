@@ -149,16 +149,29 @@ class EavAttribute implements ArrayInterface
         if (empty($this->options)) {
             $collection = $this->getAttributeCollection();
             foreach ($collection as $attribute) {
-                if ((int)$attribute->getIsSystem() === 0) {
-                    $this->options[] = [
-                        'value' => $attribute->getAttributeCode(),
-                        'label' => $attribute->getFrontendLabel() . ' (' . $attribute->getAttributeCode() . ')'
-                    ];
-                }
+                $this->options[] = $this->getOptionFromAttribute($attribute);
             }
         }
 
         return $this->options;
+    }
+
+    /**
+     * Return an option from attribute
+     * @param DataObject $attribute
+     * @return array
+     */
+    private function getOptionFromAttribute($attribute) : array
+    {
+        $option = [];
+        if ((int)$attribute->getIsSystem() === 0) {
+            $option = [
+                'value' => $attribute->getAttributeCode(),
+                'label' => $attribute->getFrontendLabel() . ' (' . $attribute->getAttributeCode() . ')'
+            ];
+        }
+
+        return $option;
     }
 
     /**
