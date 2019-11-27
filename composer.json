@@ -1,0 +1,38 @@
+{
+  "name": "softloft/magento2-product-attribute-export",
+  "description": "Magento 2 Catalog Import Export extension",
+  "require": {
+    "php": "7.0.2|7.0.4|~7.0.6|~7.1.0",
+    "magento/framework": "101.0.*",
+    "magento/module-catalog-import-export": "100.2.*"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master",
+    "phpunit/phpunit": "^5"
+  },
+  "type": "magento2-module",
+  "version": "1.0.0",
+  "license": "proprietary",
+  "keywords": [
+    "magento 2",
+    "product",
+    "attribute",
+    "export"
+  ],
+  "authors": [
+    {
+      "name": "Soft-Loft",
+      "email": "office@soft-loft.eu",
+      "homepage": "https://soft-loft.com/",
+      "role": "Technical Support"
+    }
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Softloft\\ProductAttributeExport\\": ""
+    }
+  }
+}

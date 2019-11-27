@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Soft-Loft, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<tab id="sl-extensions" translate="label" sortOrder="300">
+            <label><![CDATA[SL. Extensions]]></label>
+        </tab>
+		<section id="roductattributeexport" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+			<label>Product Attribute Export</label>
+			<tab>sl-extensions</tab>
+			<resource>Softloft_ProductAttributeExport::config_productattributeexport</resource>
+			<group id="configuration" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+				<label>Configuration</label>
+				<field id="enable" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+					<label>Enable Module</label>
+					<comment><![CDATA[Version 1.0.0]]></comment>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="allowedattribute" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="multiselect">
+					<label>Product atrributes</label>
+					<comment>Please select attributes which you want to have separate columns while exporting catalog products.</comment>
+					<source_model>Softloft\ProductAttributeExport\Model\Config\Source\EavAttribute</source_model>
+				</field>
+			</group>
+		</section>
+	</system>
+</config>
