@@ -11,6 +11,7 @@ use Magento\Eav\Model\Entity\Attribute\Set;
 use Magento\Eav\Model\ResourceModel\Entity\Attribute\Collection;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Option\ArrayInterface;
+use Magento\Framework\DataObject;
 
 /**
  * Class EavAttribute
@@ -126,7 +127,7 @@ class EavAttribute implements ArrayInterface
     private $options = [];
 
     /**
-     * Allowedattribute constructor.
+     * EavAttribute constructor.
      * @param Config $config
      * @param Collection $coll
      */
@@ -146,25 +147,39 @@ class EavAttribute implements ArrayInterface
     public function toOptionArray() : array
     {
         if (empty($this->options)) {
-            $typeId = $this->config
-                ->getEntityType(Product::ENTITY)
-                ->getEntityTypeId();
-
-            $collection = $this->attributeCollection->addFieldToFilter(Set::KEY_ENTITY_TYPE_ID, $typeId)
-                ->addFieldToFilter('attribute_code', ['nin' => $this->exportMainAttrCodes])
-                ->load()
-                ->getItems();
-
+            $collection = $this->getAttributeCollection();
             foreach ($collection as $attribute) {
                 if ((int)$attribute->getIsSystem() === 0) {
                     $this->options[] = [
-                        'value' => $attribute['attribute_code'],
-                        'label' => $attribute['frontend_label'] . ' (' . $attribute['attribute_code'] . ')'
+                        'value' => $attribute->getAttributeCode(),
+                        'label' => $attribute->getFrontendLabel() . ' (' . $attribute->getAttributeCode() . ')'
                     ];
                 }
             }
         }
 
         return $this->options;
+    }
+
+    /**
+     * Retrieve entity type id
+     * @return string|null
+     */
+    private function getEntityTypeId()
+    {
+        return $this->config->getEntityType(Product::ENTITY)
+            ->getEntityTypeId();
+    }
+
+    /**
+     * Return attribute collection
+     * @return DataObject[]
+     */
+    private function getAttributeCollection() : array
+    {
+        return $this->attributeCollection->addFieldToFilter(Set::KEY_ENTITY_TYPE_ID, $this->getEntityTypeId())
+            ->addFieldToFilter('attribute_code', ['nin' => $this->exportMainAttrCodes])
+            ->load()
+            ->getItems();
     }
 }
